@@ -163,8 +163,11 @@ func (confSrc *MemoryConfigurationSource) DeleteKeyValue(key string, value inter
 
 //Cleanup cleans a particular memory configuration up
 func (confSrc *MemoryConfigurationSource) Cleanup() error {
-	confSrc.Configurations = nil
+	return confSrc.CleanConfigs()
+}
 
+func (confSrc *MemoryConfigurationSource) CleanConfigs() error {
+	confSrc.Configurations = nil
 	return nil
 }
 

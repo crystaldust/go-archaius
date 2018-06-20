@@ -72,6 +72,20 @@ func (configMgr *ConfigurationManager) Cleanup() {
 	}
 }
 
+func (configMgr *ConfigurationManager) CleanConfigs() {
+	// cleanup all dynamic handler
+	configMgr.sourceMapMux.Lock()
+	defer configMgr.sourceMapMux.Unlock()
+	for _, source := range configMgr.Sources {
+		if source.GetSourceName() == filesource.FileConfigSourceConst {
+			source.CleanConfigs()
+			// delete(configMgr.Sources, source.GetSourceName())
+		}
+	}
+
+	configMgr.ConfigurationMap = make(map[string]string)
+}
+
 // Unmarshal deserailize config into object
 func (configMgr *ConfigurationManager) Unmarshal(obj interface{}) error {
 	rv := reflect.ValueOf(obj)

@@ -48,6 +48,7 @@ type ConfigMgr interface {
 	Unmarshal(interface{}) error
 	Refresh(sourceName string) error
 	Cleanup()
+	CleanConfigs()
 }
 
 // ConfigSource should implement this interface
@@ -61,6 +62,7 @@ type ConfigSource interface {
 	DynamicConfigHandler(DynamicConfigCallback) error
 	GetPriority() int
 	Cleanup() error
+	CleanConfigs() error
 }
 
 // Event generated when any config changes

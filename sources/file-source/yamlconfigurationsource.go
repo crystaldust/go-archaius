@@ -18,6 +18,7 @@
 package filesource
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -110,6 +111,8 @@ func NewYamlConfigurationSource() FileSource {
 }
 
 func (fSource *yamlConfigurationSource) AddFileSource(p string, priority uint32) error {
+	fmt.Println("[JUZHEN DEBUG]: ", "AddFileSource", p, priority)
+
 	path, err := filepath.Abs(p)
 	if err != nil {
 		return err
@@ -151,6 +154,8 @@ func (fSource *yamlConfigurationSource) AddFileSource(p string, priority uint32)
 	if fSource.watchPool != nil {
 		fSource.watchPool.AddWatchFile(path)
 	}
+	bs, _ := json.MarshalIndent(fSource.Configurations, "", "  ")
+	fmt.Println("[JUZHEN DEBUG]: ", string(bs))
 
 	return nil
 }
@@ -605,8 +610,13 @@ func (fSource *yamlConfigurationSource) Cleanup() error {
 		fSource.watchPool.callback = nil
 		fSource.watchPool = nil
 	}
+	fSource.files = make([]file, 0) // Reserve the files
+	return fSource.CleanConfigs()
+}
+
+func (fSource *yamlConfigurationSource) CleanConfigs() error {
 	fSource.Configurations = nil
-	fSource.files = make([]file, 0)
+	// fSource.files = make([]file, 0) // Reserve the files
 	return nil
 }
 

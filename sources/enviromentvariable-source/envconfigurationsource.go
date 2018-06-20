@@ -116,6 +116,10 @@ func (*EnvConfigurationSource) GetConfigurationByKeyAndDimensionInfo(key, di str
 
 //Cleanup cleans a particular environment configuration up
 func (confSrc *EnvConfigurationSource) Cleanup() error {
+	return confSrc.CleanConfigs()
+}
+
+func (confSrc *EnvConfigurationSource) CleanConfigs() error {
 	confSrc.Configurations = nil
 	return nil
 }

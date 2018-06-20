@@ -124,6 +124,11 @@ func (*CommandLineConfigurationSource) GetConfigurationByKeyAndDimensionInfo(key
 
 //Cleanup cleans up a configuration
 func (confSrc *CommandLineConfigurationSource) Cleanup() error {
+	return confSrc.CleanConfigs()
+}
+
+//CleanConfigs cleans up a configuration
+func (confSrc *CommandLineConfigurationSource) CleanConfigs() error {
 	confSrc.Configurations = nil
 	return nil
 }

@@ -67,6 +67,7 @@ type ConfigurationFactory interface {
 	UnRegisterListener(listenerObj core.EventListener, key ...string) error
 	// DeInit
 	DeInit() error
+	CleanConfigs() error
 	// an abstraction to return key's value in respective type
 	GetValue(key string) cast.Value
 	// return values of config-center source based on key and dimension info
@@ -241,6 +242,15 @@ func (arc *ConfigFactory) DeInit() error {
 	}
 
 	arc.configMgr.Cleanup()
+	return nil
+}
+
+func (arc *ConfigFactory) CleanConfigs() error {
+	if arc.initSuccess == false {
+		return nil
+	}
+
+	arc.configMgr.CleanConfigs()
 	return nil
 }
 
